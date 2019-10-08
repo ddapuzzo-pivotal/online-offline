@@ -1,0 +1,7 @@
+---
+applications:
+  - name: online-offline-backend
+    memory: 256M
+    instances: 1
+    stack: cflinuxfs3
+    command: node index.js
