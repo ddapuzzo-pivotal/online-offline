@@ -2,8 +2,8 @@
 <body class="App">
 <div id="offline-banner" class="online">OFFLINE</div>
 <div class="form">
-<input id="form-input" type="text"/>
-<button onclick="offlineRequest(createSubmissionAction)">GO</button>
+    <input id="form-input" type="text"/>
+    <button onclick="offlineRequest(createSubmissionAction)">GO</button>
 </div>
 <div id="monitor">
 
@@ -16,8 +16,6 @@
     const requestQueue = [];
     const flushQueue = () => requestQueue.forEach(it => it());
 
-    const setStatus = (text) => document.getElementById("monitor").innerText = text;
-
     const offlineRequest = (action) => {
         if (navigator.onLine) {
             action()
@@ -27,23 +25,18 @@
         }
     };
 
+    const setStatus = (text) => document.getElementById("monitor").innerText = text;
+
     const createSubmissionAction = () => fetch("https://online-offline-backend.apps.pcfone.io/reverse-me", {
         method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({text: document.getElementById("form-input").value})
     })
         .then(() => setStatus("Successfully Saved"))
-        .then(getReversedValue)
+        .then(() => fetch("https://online-offline-backend.apps.pcfone.io/reverse-me")
+            .then(it => it.text().then(setStatus))
+            .catch(console.log))
         .catch(console.log);
-
-    const getReversedValue = () => fetch("https://online-offline-backend.apps.pcfone.io/reverse-me")
-        .then(it => {
-                return it.text().then(setStatus);
-        })
-        .catch(console.log);
-
 
     window.addEventListener('online', flushQueue);
     window.addEventListener('online', () => document.getElementById("offline-banner").className = "online");
@@ -59,11 +52,8 @@
         background: darkred;
     }
 
-    .online{
-            display: none;
-    }
-
-    .offline{
+    .online {
+        display: none;
     }
 
     input {
