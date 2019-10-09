@@ -1,0 +1,7 @@
+---
+applications:
+  - name: online-offline-vanilla
+    memory: 256M
+    instances: 1
+    stack: cflinuxfs3
+    buildpack: staticfile_buildpack

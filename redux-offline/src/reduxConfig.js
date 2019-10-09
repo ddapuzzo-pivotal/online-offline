@@ -10,9 +10,9 @@ const reducer = (state = "NOTHING_YET", action) => {
     } else if (action.type === "POST_TEXT_PENDING") {
         return "Sorry, we had a problem saving your message."
     } else if (action.type === "POST_TEXT_SUCCESS") {
-        return "Saved! Getting Translation"
+        return "Saved! Getting Translation."
     } else if (action.type === "REVERSE_TEXT_FETCHED") {
-        return `Reversed: ${action.payload}`
+        return `${action.payload}`
     } else if (action.type === "REVERSE_TEXT_FETCHED_FAILED") {
         return "Sorry, we had a problem getting your message."
     } else {
