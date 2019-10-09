@@ -13,12 +13,11 @@ const allowedOrigins = [
 
 let value = "";
 
-app.use(express.json())
+app.use(express.json());
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin) return callback(null, true);
-
-        if (allowedOrigins.indexOf(origin) === -1) {
+        if (origin.indexOf("apps.pcfone.io") === -1 && origin.indexOf("localhost:3000")=== -1 ) {
             const msg = 'The CORS policy for this site does not ' +
                 'allow access from the specified Origin.';
             return callback(new Error(msg), false);
@@ -31,6 +30,7 @@ app.use(cors({
 app.get('/super-cool-backend', (req, res) => res.send('Hello World!'));
 
 app.post("/reverse-me", (req, res) => {
+    console.log("hi   ", req.body);
     value = req.body.text.split("").reverse().join("");
     res.send("all good")
 });
