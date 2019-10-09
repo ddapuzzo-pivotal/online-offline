@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {offline} from '@redux-offline/redux-offline';
+import {createOffline} from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import {mySaga, sagaMiddleware} from "./actions";
 import {composeWithDevTools} from "redux-devtools-extension";
@@ -24,16 +24,20 @@ const rootReducer = combineReducers({
     monitor: reducer
 });
 
+const middlewareList = [
+    sagaMiddleware
+];
+
+const {
+    middleware: offlineMiddleware,
+    enhanceReducer,
+    enhanceStore
+} = createOffline(offlineConfig);
+
+const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
 
 export const store = createStore(
-    rootReducer,
-    {
-        monitor: "NOTHING_YET"
-    },
-    composeWithDevTools(
-        offline(offlineConfig),
-        applyMiddleware(sagaMiddleware)
-    )
+    enhanceReducer(rootReducer),
+    composeWithDevTools(enhanceStore, middleware)
 );
-
 sagaMiddleware.run(mySaga);

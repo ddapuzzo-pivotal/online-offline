@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {Monitor, Form} from "./components/Form";
+import {Form} from "./components/Form";
 import {OfflineBanner} from "./components/OfflineBanner";
+import {Monitor} from "./components/Monitor";
 
 function App() {
     return (
